@@ -5,6 +5,9 @@
 # log files
 *.log
 
+# exclude compiled python files
+*.pyc
+
 # maven
 out/
 target/
