@@ -12,9 +12,16 @@ import imghdr
 __author__ = 'Michael Sonntag'
 
 
+# TODO add start and end
+# TODO add logfile
+# TODO move start script to another file
+# TODO add commandline support - add cmdline parser and optional reading of JSON argument file
+# TODO add tests
+
 class Main:
     def run(self):
-        """Script used to batch rename files in a directory tree. At the moment only files in the
+        """
+        Script used to batch rename files in a directory tree. At the moment only files in the
         first layer of subfolders will be taken into account.
         Files will be renamed in the following fashion:
         '[Subdirectory name]_[specified batch name]_[progressing index]__[part of the previous name after separator]'.
@@ -69,5 +76,3 @@ class Main:
                                 #print("[Info] Rename to " + formatted_name)
                                 os.rename(original_file, formatted_name)
                                 i += 1
-
-Main().run()
