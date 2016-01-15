@@ -34,33 +34,40 @@ class Main:
         name_separator = '__'
         # Define if all files encountered in a directory should be renamed
         # or if only a defined subset should be subjected to renaming.
-        rename_all_file_types = False
+        rename_all_file_types = True
         # Define which types of files should be renamed.
         rename_file_types = ['JPG', 'JPEG', 'PNG']
         # Define which directories within the main directory should be excluded all together.
-        exclude_dirs = ['excludeMe']
+        # This is case sensitive.
+        exclude_dirs = ['excludeMe', '20150926_meToo']
 
         for path, dirs, files in os.walk(main_dir_path):
             if path != main_dir_path:
 
-                # TODO add check for exclude_dirs at this point
+                # TODO add better check for exclude_dirs at this point
+                do_exclude = False
+                for curr_dir in exclude_dirs:
+                    if path.__contains__(curr_dir):
+                        print("[Info] Directory " + curr_dir + " will be excluded")
+                        do_exclude = True
 
-                i = batch_start_index
-                for f in files:
-                    original_file = os.path.join(path, f)
+                if not do_exclude:
+                    print("[Info] Process directory " + path)
+                    i = batch_start_index
+                    for f in files:
+                        original_file = os.path.join(path, f)
 
-                    if rename_all_file_types or rename_file_types.__contains__(str(imghdr.what(original_file)).upper()):
-                        if not f.__contains__(name_separator):
-                            # TODO integrate filename in a nicer way into the print string
-                            print("[Warning] File \'"+ f +"\' does not contain separator")
-                            break
-
-                        split_parts = f.split(name_separator)
-                        file_name = os.path.basename(path) + main_name + "{:03d}".format(i)
-                        file_name += name_separator + split_parts[1]
-                        formatted_name = os.path.join(path, file_name)
-                        #print(formatted_name)
-                        #os.rename(original_file, formatted_name)
-                        i += 1
+                        if rename_all_file_types or rename_file_types.__contains__(str(imghdr.what(original_file)).upper()):
+                            if not f.__contains__(name_separator):
+                                # TODO integrate filename in a nicer way into the print string
+                                print("[Warning] File \'" + f + "\' does not contain separator")
+                            else:
+                                split_parts = f.split(name_separator)
+                                file_name = os.path.basename(path) + main_name + "{:03d}".format(i)
+                                file_name += name_separator + split_parts[1]
+                                formatted_name = os.path.join(path, file_name)
+                                #print("[Info] Rename to " + formatted_name)
+                                os.rename(original_file, formatted_name)
+                                i += 1
 
 Main().run()
