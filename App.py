@@ -50,20 +50,23 @@ class Main:
         # Define which types of files should be renamed.
         rename_file_types = ['JPG', 'JPEG', 'PNG']
         # Define which directories within the main directory should be excluded all together.
-        # This is case sensitive.
+        # This option is case sensitive.
         exclude_dirs = ['excludeMe', '20150926_meToo']
 
         for path, dirs, files in os.walk(main_dir_path):
             if path != main_dir_path:
 
                 # TODO add better check for exclude_dirs at this point
-                do_exclude = False
+                exclude_dir = False
                 for curr_dir in exclude_dirs:
                     if path.find(curr_dir) > -1:
                         print("[Info] Directory " + curr_dir + " will be excluded")
-                        do_exclude = True
+                        exclude_dir = True
 
-                if not do_exclude:
+                if not exclude_dir:
+                    split_path = os.path.abspath(path).replace(main_dir_path, '')
+                    split_dirs = split_path.split('\\')
+
                     print("[Info] Process directory " + path)
                     i = batch_start_index
                     for f in files:
@@ -74,7 +77,7 @@ class Main:
                                 # TODO Integrate filename in a nicer way into the print string.
                                 print("[Warning] File \'" + f + "\' does not contain separator")
                                 # TODO Check if this is a good way to handle the file ending when
-                                # working with a missing name separator.
+                                # TODO working with a missing name separator.
                                 split_parts = f.rsplit('.', 1)
                                 split_parts[1] = '.' + split_parts[1]
                             else:
@@ -86,10 +89,18 @@ class Main:
                             # Make sure only one white space separator is used at the
                             # end of the directory name.
                             if add_directory_name:
-                                file_name = os.path.basename(path).rstrip(white_space_separator)
+                                file_name += split_dirs[0].rstrip(white_space_separator)
                                 file_name += white_space_separator
 
+                            # TODO Check if inserting the main name into the first directory and any subdirectory
+                            # TODO can be done in a better way.
                             file_name += main_name + white_space_separator
+
+                            if add_directory_name:
+                                for d in split_dirs[1:]:
+                                    file_name += d.rstrip(white_space_separator)
+                                    file_name += white_space_separator
+
                             file_name += "{:03d}".format(i)
                             file_name += name_separator + split_parts[1]
 
