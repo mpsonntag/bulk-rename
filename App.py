@@ -14,7 +14,6 @@ __author__ = 'Michael Sonntag'
 
 # TODO add start and end
 # TODO add logfile
-# TODO move start script to another file
 # TODO add commandline support - add cmdline parser and optional reading of JSON argument file
 # TODO add tests
 
@@ -34,11 +33,15 @@ class Main:
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
         # Define a base string that will be inserted into the renaming string.
         main_name = 'Zentralasien_'
-        # Define at which number the index for renaming multiple files in each folder should start.
-        batch_start_index = 1
+        # Use the name of the directory when renaming a file.
+        add_directory_name = True
         # Separator string that separates the part of the existing filename that will be
         # replaced with the part of the existing filename that will be kept for the renaming string.
         name_separator = '__'
+        # White space separator.
+        ws_separator = '_'
+        # Define at which number the index for renaming multiple files in each folder should start.
+        batch_start_index = 1
         # Define if all files encountered in a directory should be renamed
         # or if only a defined subset should be subjected to renaming.
         rename_all_file_types = True
@@ -70,9 +73,14 @@ class Main:
                                 print("[Warning] File \'" + f + "\' does not contain separator")
                             else:
                                 split_parts = f.split(name_separator)
-                                file_name = os.path.basename(path) + main_name + "{:03d}".format(i)
+
+                                file_name = ""
+                                if add_directory_name:
+                                    file_name = os.path.basename(path)
+
+                                file_name = file_name + main_name + "{:03d}".format(i)
                                 file_name += name_separator + split_parts[1]
                                 formatted_name = os.path.join(path, file_name)
-                                #print("[Info] Rename to " + formatted_name)
-                                os.rename(original_file, formatted_name)
+                                print("[Info] Rename to " + formatted_name)
+                                #os.rename(original_file, formatted_name)
                                 i += 1
