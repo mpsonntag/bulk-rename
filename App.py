@@ -12,10 +12,11 @@ import imghdr
 __author__ = 'Michael Sonntag'
 
 
-# TODO add start and end
-# TODO add logfile
-# TODO add commandline support - add cmdline parser and optional reading of JSON argument file
-# TODO add tests
+# TODO Add start and end
+# TODO Add logfile
+# TODO Add commandline support - add cmdline parser
+# TODO Outsource program settings to JSON file, parse and read that in.
+# TODO Add tests
 
 class Main:
     def run(self):
@@ -31,6 +32,7 @@ class Main:
         """
         # Define the path of the main directory from which to rename files in folders.
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
+        # main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\rename\\'
         # Define a base string that will be inserted into the renaming string.
         main_name = 'Zentralasien'
         # Use the name of the directory when renaming a file.
@@ -52,6 +54,7 @@ class Main:
         # Define which directories within the main directory should be excluded all together.
         # This option is case sensitive.
         exclude_dirs = ['excludeMe', '20150926_meToo']
+        #exclude_dirs = []
 
         for path, dirs, files in os.walk(main_dir_path):
             if path != main_dir_path:
@@ -103,6 +106,9 @@ class Main:
 
                             file_name += "{:03d}".format(i)
                             file_name += name_separator + split_parts[1]
+                            if split_parts.__len__() > 2:
+                                for p in split_parts[2:]:
+                                    file_name += white_space_separator + p
 
                             file_name.strip()
 
@@ -112,6 +118,5 @@ class Main:
 
                             formatted_name = os.path.join(path, file_name)
 
-                            #print("[Info] Rename to " + formatted_name)
                             os.rename(original_file, formatted_name)
                             i += 1
