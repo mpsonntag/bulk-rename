@@ -38,8 +38,10 @@ class Main:
         # Separator string that separates the part of the existing filename that will be
         # replaced with the part of the existing filename that will be kept for the renaming string.
         name_separator = '__'
-        # White space separator.
-        ws_separator = '_'
+        # Define whether whitespace should be replaced or not.
+        replace_white_space = True
+        # White space separator, also used as white space replacement.
+        white_space_separator = '_'
         # Define at which number the index for renaming multiple files in each folder should start.
         batch_start_index = 1
         # Define if all files encountered in a directory should be renamed
@@ -75,12 +77,20 @@ class Main:
                                 split_parts = f.split(name_separator)
 
                                 file_name = ""
+
                                 if add_directory_name:
                                     file_name = os.path.basename(path)
 
                                 file_name = file_name + main_name + "{:03d}".format(i)
                                 file_name += name_separator + split_parts[1]
+
+                                file_name.strip()
+
+                                if replace_white_space & (file_name.find(' ') > 0):
+                                    print("[Info] Replace white space in " + file_name)
+                                    file_name = file_name.replace(' ', white_space_separator)
+
                                 formatted_name = os.path.join(path, file_name)
-                                print("[Info] Rename to " + formatted_name)
-                                #os.rename(original_file, formatted_name)
+                                #print("[Info] Rename to " + formatted_name)
+                                os.rename(original_file, formatted_name)
                                 i += 1
