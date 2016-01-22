@@ -70,33 +70,37 @@ class Main:
                         original_file = os.path.join(path, f)
 
                         if rename_all_file_types or rename_file_types.__contains__(str(imghdr.what(original_file)).upper()):
-                            if not f.find(name_separator) > -1:
-                                # TODO integrate filename in a nicer way into the print string
+                            if f.find(name_separator) == -1:
+                                # TODO Integrate filename in a nicer way into the print string.
                                 print("[Warning] File \'" + f + "\' does not contain separator")
+                                # TODO Check if this is a good way to handle the file ending when
+                                # working with a missing name separator.
+                                split_parts = f.rsplit('.', 1)
+                                split_parts[1] = '.' + split_parts[1]
                             else:
                                 split_parts = f.split(name_separator)
 
-                                file_name = ""
+                            file_name = ""
 
-                                # Add directory name to te current file name if set.
-                                # Make sure only one white space separator is used at the
-                                # end of the directory name.
-                                if add_directory_name:
-                                    file_name = os.path.basename(path).rstrip(white_space_separator)
-                                    file_name += white_space_separator
+                            # Add directory name to te current file name if set.
+                            # Make sure only one white space separator is used at the
+                            # end of the directory name.
+                            if add_directory_name:
+                                file_name = os.path.basename(path).rstrip(white_space_separator)
+                                file_name += white_space_separator
 
-                                file_name += main_name + white_space_separator
-                                file_name += "{:03d}".format(i)
-                                file_name += name_separator + split_parts[1]
+                            file_name += main_name + white_space_separator
+                            file_name += "{:03d}".format(i)
+                            file_name += name_separator + split_parts[1]
 
-                                file_name.strip()
+                            file_name.strip()
 
-                                if replace_white_space & (file_name.find(' ') > 0):
-                                    print("[Info] Replace white space in " + file_name)
-                                    file_name = file_name.replace(' ', white_space_separator)
+                            if replace_white_space & (file_name.find(' ') > 0):
+                                print("[Info] Replace white space in " + file_name)
+                                file_name = file_name.replace(' ', white_space_separator)
 
-                                formatted_name = os.path.join(path, file_name)
+                            formatted_name = os.path.join(path, file_name)
 
-                                #print("[Info] Rename to " + formatted_name)
-                                os.rename(original_file, formatted_name)
-                                i += 1
+                            #print("[Info] Rename to " + formatted_name)
+                            os.rename(original_file, formatted_name)
+                            i += 1
