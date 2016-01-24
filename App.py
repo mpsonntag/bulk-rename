@@ -32,7 +32,9 @@ class Main:
         """
         # Define the path of the main directory from which to rename files in folders.
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
-        # main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\rename\\'
+        #main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\rename\\'
+        # Handle files in the main directory as well.
+        include_main_dir = True
         # Define a base string that will be inserted into the renaming string.
         main_name = 'Zentralasien'
         # Use the name of the directory when renaming a file.
@@ -50,6 +52,7 @@ class Main:
         # or if only a defined subset should be subjected to renaming.
         rename_all_file_types = True
         # Define which types of files should be renamed.
+        # TODO checking for file type is really slow...
         rename_file_types = ['JPG', 'JPEG', 'PNG']
         # Define which directories within the main directory should be excluded all together.
         # This option is case sensitive.
@@ -57,7 +60,7 @@ class Main:
         #exclude_dirs = []
 
         for path, dirs, files in os.walk(main_dir_path):
-            if path != main_dir_path:
+            if path != main_dir_path or include_main_dir:
 
                 # TODO add better check for exclude_dirs at this point
                 exclude_dir = False
@@ -67,8 +70,10 @@ class Main:
                         exclude_dir = True
 
                 if not exclude_dir:
-                    split_path = os.path.abspath(path).replace(main_dir_path, '')
-                    split_dirs = split_path.split('\\')
+                    split_dirs = [os.path.basename(path.rstrip('\\'))]
+                    if path != main_dir_path:
+                        split_path = os.path.abspath(path).replace(main_dir_path, '')
+                        split_dirs = split_path.split('\\')
 
                     print("[Info] Process directory " + path)
                     i = batch_start_index
