@@ -38,7 +38,7 @@ class Main:
         include_main_dir = True
         # Define a base string that will be inserted into the renaming string.
         main_name = 'Zentralasien'
-        # Use the name of the directory when renaming a file.
+        # Use the name of the directory tree up to the main path when renaming a file.
         add_directory_name = True
         # Separator string that separates the part of the existing filename that will be
         # replaced with the part of the existing filename that will be kept for the renaming string.
@@ -53,8 +53,8 @@ class Main:
         # or if only a defined subset should be subjected to renaming.
         rename_all_file_types = True
         # Define which types of files should be renamed.
-        # TODO checking for file type is really slow...
-        rename_file_types = ['JPG', 'JPEG', 'PNG']
+        # TODO Current file type checks are really slow...
+        rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
         # Define which directories within the main directory should be excluded all together.
         # This option is case sensitive.
         exclude_dirs = ['excludeMe', '20150926_meToo']
