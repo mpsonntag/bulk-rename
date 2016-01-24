@@ -19,7 +19,8 @@ __author__ = 'Michael Sonntag'
 # TODO Add tests
 
 class Main:
-    def run(self):
+    @staticmethod
+    def run():
         """
         Script used to batch rename files in a directory tree. At the moment only files in the
         first layer of subfolders will be taken into account.
