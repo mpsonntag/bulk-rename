@@ -32,10 +32,10 @@ class Main:
         Subdirectories can be excluded by name.
         """
         # Define the path of the main directory from which to rename files in folders.
-        main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
-        #main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\rename\\'
+        #main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
+        main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\'
         # Handle files in the main directory as well.
-        include_main_dir = True
+        include_main_dir = False
         # Define a base string that will be inserted into the renaming string.
         main_name = 'Zentralasien'
         # Use the name of the directory tree up to the main path when renaming a file.
@@ -57,8 +57,8 @@ class Main:
         rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
         # Define which directories within the main directory should be excluded all together.
         # This option is case sensitive.
-        exclude_dirs = ['excludeMe', '20150926_meToo']
-        #exclude_dirs = []
+        #exclude_dirs = ['excludeMe', '20150926_meToo']
+        exclude_dirs = []
 
         for path, dirs, files in os.walk(main_dir_path):
             if path != main_dir_path or include_main_dir:
@@ -111,16 +111,24 @@ class Main:
                                     file_name += white_space_separator
 
                             file_name += "{:03d}".format(i)
-                            file_name += name_separator + split_parts[1]
+                            end_name = split_parts[1]
                             if split_parts.__len__() > 2:
                                 for p in split_parts[2:]:
-                                    file_name += white_space_separator + p
+                                    end_name += white_space_separator + p
 
                             file_name.strip()
+                            end_name.strip()
 
                             if replace_white_space & (file_name.find(' ') > 0):
                                 print("[Info] Replace white space in " + file_name)
                                 file_name = file_name.replace(' ', white_space_separator)
+                                file_name = file_name.replace(name_separator, white_space_separator)
+                            if replace_white_space & (end_name.find(' ') > 0):
+                                print("[Info] Replace white space in " + end_name)
+                                end_name = end_name.replace(' ', white_space_separator)
+                                end_name = end_name.replace(name_separator, white_space_separator)
+
+                            file_name += name_separator + end_name
 
                             formatted_name = os.path.join(path, file_name)
 
