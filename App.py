@@ -32,7 +32,7 @@ class Main:
         Subdirectories can be excluded by name.
         """
         # Define the path of the main directory from which to rename files in folders.
-        #main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\testRename\\'
+        #main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\'
         # Handle files in the main directory as well.
         include_main_dir = False
