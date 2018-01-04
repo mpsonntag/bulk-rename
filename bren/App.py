@@ -32,8 +32,6 @@ class Main:
         Subdirectories can be excluded by name.
         """
 
-        print("[Info] Starting")
-
         # Define the path of the main directory from which to rename files in folders.
         # main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\'
@@ -64,6 +62,14 @@ class Main:
         # all together. This option is case sensitive.
         # exclude_dirs = ['excludeMe', '20150926_meToo']
         exclude_dirs = []
+
+        print("[Info] Starting ...")
+        print("[Info] Handling folder %s; included: %s" % (main_dir_path, include_main_dir))
+        print("[Info] MainName: %s; Add Directory Name: %s; batch start index: %s" %
+              (main_name, add_directory_name, batch_start_index))
+        print("[Info] Separator: '%s'; ws separator: '%s'; replace ws: '%s'" %
+              (name_separator, white_space_separator, replace_white_space))
+        print("[Info] Rename file types: %s" % rename_file_types)
 
         for path, dirs, files in os.walk(main_dir_path):
             if path != main_dir_path or include_main_dir:
