@@ -16,23 +16,26 @@ __author__ = 'Michael Sonntag'
 # TODO Add logfile
 # TODO Add commandline support - add cmdline parser
 # TODO Outsource program settings to JSON file, parse and read that in.
-# TODO Add tests
 
 class Main:
     @staticmethod
     def run():
         """
-        Script used to batch rename files in a directory tree. At the moment only files in the
-        first layer of subfolders will be taken into account.
+        Script used to batch rename files in a directory tree. At the moment only files
+        in the first layer of subfolders will be taken into account.
         Files will be renamed in the following fashion:
-        '[Subdirectory name]_[specified batch name]_[progressing index]__[part of the previous name after separator]'.
+        '[Subdirectory name]_[specified batch name]_[progressing index]__[part of the
+        previous name after separator]'.
         The index will be reset for each subfolder, the starting index can be defined.
-        It can be defined whether all files should be renamed, the renaming can also be restricted to
-        specified file types only.
+        It can be defined whether all files should be renamed, the renaming can also be
+        restricted to specified file types only.
         Subdirectories can be excluded by name.
         """
+
+        print("[Info] Starting")
+
         # Define the path of the main directory from which to rename files in folders.
-        #main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
+        # main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
         main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\'
         # Handle files in the main directory as well.
         include_main_dir = False
@@ -41,13 +44,15 @@ class Main:
         # Use the name of the directory tree up to the main path when renaming a file.
         add_directory_name = True
         # Separator string that separates the part of the existing filename that will be
-        # replaced with the part of the existing filename that will be kept for the renaming string.
+        # replaced with the part of the existing filename that will be kept
+        # for the renaming string.
         name_separator = '__'
         # Define whether whitespace should be replaced or not.
         replace_white_space = True
         # White space separator, also used as white space replacement.
         white_space_separator = '_'
-        # Define at which number the index for renaming multiple files in each folder should start.
+        # Define at which number the index for renaming multiple files in each folder
+        # should start.
         batch_start_index = 1
         # Define if all files encountered in a directory should be renamed
         # or if only a defined subset should be subjected to renaming.
@@ -55,9 +60,9 @@ class Main:
         # Define which types of files should be renamed.
         # TODO Current file type checks are really slow...
         rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
-        # Define which directories within the main directory should be excluded all together.
-        # This option is case sensitive.
-        #exclude_dirs = ['excludeMe', '20150926_meToo']
+        # Define which directories within the main directory should be excluded
+        # all together. This option is case sensitive.
+        # exclude_dirs = ['excludeMe', '20150926_meToo']
         exclude_dirs = []
 
         for path, dirs, files in os.walk(main_dir_path):
@@ -81,12 +86,13 @@ class Main:
                     for f in files:
                         original_file = os.path.join(path, f)
 
-                        if rename_all_file_types or rename_file_types.__contains__(str(imghdr.what(original_file)).upper()):
+                        fpc = str(imghdr.what(original_file)).upper()
+                        if rename_all_file_types or rename_file_types.__contains__(fpc):
                             if f.find(name_separator) == -1:
-                                # TODO Integrate filename in a nicer way into the print string.
-                                print("[Warning] File \'" + f + "\' does not contain separator")
-                                # TODO Check if this is a good way to handle the file ending when
-                                # TODO working with a missing name separator.
+                                print('[Warning] File "%s" does not contain separator' % f)
+                                # TODO Nicer filename integration into the print string.
+                                # TODO Check if this is a good way to handle the file
+                                # TODO ending when working with a missing name separator.
                                 split_parts = f.rsplit('.', 1)
                                 split_parts[1] = '.' + split_parts[1]
                             else:
@@ -101,8 +107,8 @@ class Main:
                                 file_name += split_dirs[0].rstrip(white_space_separator)
                                 file_name += white_space_separator
 
-                            # TODO Check if inserting the main name into the first directory and any subdirectory
-                            # TODO can be done in a better way.
+                            # TODO Check if inserting the main name into the first
+                            # directory and any subdirectory can be done in a better way.
                             file_name += main_name + white_space_separator
 
                             if add_directory_name:
