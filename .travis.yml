@@ -19,7 +19,7 @@ matrix:
       env: OSXENV=3.5
 
 before_install:
-  - resources/before_install.sh
+  - bash resources/before_install.sh
 
 script:
   - which python
