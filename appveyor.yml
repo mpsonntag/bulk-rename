@@ -12,10 +12,11 @@ environment:
 init:
   - "ECHO We want Python: %PYTHON%, Version: %PYVER%;"
   - python --version
-
-install:
   - ps: |
       if($env:PYVER -eq "2.7") { echo "Python 2.7" }
+
+# we do not need to build this project
+build: false
 
 test_script:
   - python -m unittest discover test
