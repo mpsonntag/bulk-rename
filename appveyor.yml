@@ -15,9 +15,7 @@ init:
 
 install:
   - ps: |
-    if ($env:PYVER -eq "2.7") {
-        echo "Python 2.7"
-    }
+      if($env:PYVER -eq "2.7") { echo "Python 2.7" }
 
 test_script:
   - python -m unittest discover test
