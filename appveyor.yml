@@ -1,0 +1,23 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+      PYVER: "2.7"
+    - PYTHON: "C:\\Python35"
+      PYVER: "3.5"
+    - PYTHON: "C:\\Python27-x64"
+      PYVER: "2.7"
+    - PYTHON: "C:\\Python35-x64"
+      PYVER: "3.5"
+
+init:
+  - "ECHO We want Python: %PYTHON%, Version: %PYVER%;"
+  - python --version
+
+install:
+  - ps: |
+    if ($env:PYVER -eq "2.7") {
+        echo "Python 2.7"
+    }
+
+test_script:
+  - python -m unittest discover test
