@@ -90,59 +90,68 @@ class Main:
                     print("[Info] Process directory " + path)
                     i = batch_start_index
                     for f in files:
-                        original_file = os.path.join(path, f)
+                        Main.do_stuff(path, f, rename_all_file_types, rename_file_types,
+                                      name_separator, add_directory_name, split_dirs,
+                                      white_space_separator, main_name,
+                                      replace_white_space, i)
+                        i += 1
 
-                        fpc = str(imghdr.what(original_file)).upper()
-                        if rename_all_file_types or rename_file_types.__contains__(fpc):
-                            if f.find(name_separator) == -1:
-                                print('[Warning] File "%s" does not contain separator' % f)
-                                # TODO Nicer filename integration into the print string.
-                                # TODO Check if this is a good way to handle the file
-                                # TODO ending when working with a missing name separator.
-                                split_parts = f.rsplit('.', 1)
-                                split_parts[1] = '.' + split_parts[1]
-                            else:
-                                split_parts = f.split(name_separator)
+    @staticmethod
+    def do_stuff(path, f, rename_all_file_types, rename_file_types, name_separator,
+                 add_directory_name, split_dirs, white_space_separator, main_name,
+                 replace_white_space, i):
+        original_file = os.path.join(path, f)
 
-                            file_name = ""
+        fpc = str(imghdr.what(original_file)).upper()
+        if rename_all_file_types or rename_file_types.__contains__(fpc):
+            if f.find(name_separator) == -1:
+                print('[Warning] File "%s" does not contain separator' % f)
+                # TODO Nicer filename integration into the print string.
+                # TODO Check if this is a good way to handle the file
+                # TODO ending when working with a missing name separator.
+                split_parts = f.rsplit('.', 1)
+                split_parts[1] = '.' + split_parts[1]
+            else:
+                split_parts = f.split(name_separator)
 
-                            # Add directory name to te current file name if set.
-                            # Make sure only one white space separator is used at the
-                            # end of the directory name.
-                            if add_directory_name:
-                                file_name += split_dirs[0].rstrip(white_space_separator)
-                                file_name += white_space_separator
+            file_name = ""
 
-                            # TODO Check if inserting the main name into the first
-                            # directory and any subdirectory can be done in a better way.
-                            file_name += main_name + white_space_separator
+            # Add directory name to te current file name if set.
+            # Make sure only one white space separator is used at the
+            # end of the directory name.
+            if add_directory_name:
+                file_name += split_dirs[0].rstrip(white_space_separator)
+                file_name += white_space_separator
 
-                            if add_directory_name:
-                                for d in split_dirs[1:]:
-                                    file_name += d.rstrip(white_space_separator)
-                                    file_name += white_space_separator
+            # TODO Check if inserting the main name into the first
+            # directory and any subdirectory can be done in a better way.
+            file_name += main_name + white_space_separator
 
-                            file_name += "{:03d}".format(i)
-                            end_name = split_parts[1]
-                            if split_parts.__len__() > 2:
-                                for p in split_parts[2:]:
-                                    end_name += white_space_separator + p
+            if add_directory_name:
+                for d in split_dirs[1:]:
+                    file_name += d.rstrip(white_space_separator)
+                    file_name += white_space_separator
 
-                            file_name.strip()
-                            end_name.strip()
+            file_name += "{:03d}".format(i)
+            end_name = split_parts[1]
+            if split_parts.__len__() > 2:
+                for p in split_parts[2:]:
+                    end_name += white_space_separator + p
 
-                            if replace_white_space & (file_name.find(' ') > 0):
-                                print("[Info] Replace white space in " + file_name)
-                                file_name = file_name.replace(' ', white_space_separator)
-                                file_name = file_name.replace(name_separator, white_space_separator)
-                            if replace_white_space & (end_name.find(' ') > 0):
-                                print("[Info] Replace white space in " + end_name)
-                                end_name = end_name.replace(' ', white_space_separator)
-                                end_name = end_name.replace(name_separator, white_space_separator)
+            file_name.strip()
+            end_name.strip()
 
-                            file_name += name_separator + end_name
+            if replace_white_space & (file_name.find(' ') > 0):
+                print("[Info] Replace white space in " + file_name)
+                file_name = file_name.replace(' ', white_space_separator)
+                file_name = file_name.replace(name_separator, white_space_separator)
+            if replace_white_space & (end_name.find(' ') > 0):
+                print("[Info] Replace white space in " + end_name)
+                end_name = end_name.replace(' ', white_space_separator)
+                end_name = end_name.replace(name_separator, white_space_separator)
 
-                            formatted_name = os.path.join(path, file_name)
+            file_name += name_separator + end_name
 
-                            os.rename(original_file, formatted_name)
-                            i += 1
+            formatted_name = os.path.join(path, file_name)
+
+            os.rename(original_file, formatted_name)
