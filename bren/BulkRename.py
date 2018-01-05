@@ -9,9 +9,6 @@
 import os
 import imghdr
 
-__author__ = 'Michael Sonntag'
-
-
 # TODO Add start and end
 # TODO Add logfile
 # TODO Add commandline support - add cmdline parser
