@@ -21,8 +21,8 @@ then
     fi
 
     sudo apt-get -qq update
-    sudo apt-get install libgtk-3-0
-    sudo apt-get install gobject-introspection
+    sudo apt-get install libffi-dev libglib2.0-dev
+    sudo apt-get install gobject-introspection libgtk-3-dev
     sudo apt-get install ${packages}
 
 ####### OS X Build #######
