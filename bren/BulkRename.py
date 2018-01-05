@@ -115,11 +115,10 @@ class BulkRename:
         original_file = os.path.join(path, curr_file)
 
         fpc = str(imghdr.what(original_file)).upper()
-        if self.rename_everything or self.rename_file_types.__contains__(fpc):
+        if self.rename_everything or (fpc in self.rename_file_types):
             if curr_file.find(self.name_separator) == -1:
                 print("[Warning] File '%s' does not contain separator" % curr_file)
 
-                # TODO Nicer filename integration into the print string.
                 # TODO Check if this is a good way to handle the file
                 # TODO ending when working with a missing name separator.
 
@@ -139,7 +138,7 @@ class BulkRename:
 
             # TODO Check if inserting the main name into the first
             # directory and any subdirectory can be done in a better way.
-            file_name += self.base_name + self.white_space_separator
+            file_name += self.base_name + str(self.white_space_separator)
 
             if self.add_directory_name:
                 for curr_dir in split_dirs[1:]:
