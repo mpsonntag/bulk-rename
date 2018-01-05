@@ -37,9 +37,9 @@ matrix:
         - CONDA=N
 
 before_install:
-  - bash resources/before_install.sh
-  - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi
-  - if [[ "$CONDA" == "Y" ]]; then bash resources/conda_setup.sh; fi
+  - sudo bash resources/before_install.sh
+  - if [[ "$CONDA" == "N" ]]; then sudo bash resources/install_dependencies.sh; fi
+  - if [[ "$CONDA" == "Y" ]]; then sudo bash resources/conda_setup.sh; fi
 
 script:
   - if [[ "$CONDA" == "Y" ]]; then source activate condaenv; fi
