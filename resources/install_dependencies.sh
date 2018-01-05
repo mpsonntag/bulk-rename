@@ -25,13 +25,6 @@ then
     sudo apt-get install gobject-introspection libgtk-3-dev
     sudo apt-get install ${packages}
 
-    if [ ${TRAVIS_PYTHON_VERSION%.*} -eq 3 ]
-    then
-        python3 test/gi_imports.py
-    else
-        python test/gi_imports.py
-    fi
-
 ####### OS X Build #######
 else
 
