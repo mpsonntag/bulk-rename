@@ -58,7 +58,13 @@ class BulkRename:
                 if "white_space_separator" in config and config["white_space_separator"]:
                     self.white_space_separator = True if config["white_space_separator"] == 1 else False
                 if "batch_start_index" in config and config["batch_start_index"]:
-                    self.batch_start_index = config["batch_start_index"]
+                    try:
+                        2 + config["batch_start_index"]
+                    except TypeError as err:
+                        print("[Warning] Invalid start index '%s'; using 1" %
+                              config["batch_start_index"])
+                    else:
+                        self.batch_start_index = config["batch_start_index"]
                 if "rename_all_file_types" in config and config["rename_all_file_types"]:
                     self.rename_all_file_types = True if config["rename_all_file_types"] == 1 else False
                 if "rename_file_types" in config and config["rename_file_types"]:
