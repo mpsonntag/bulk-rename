@@ -22,11 +22,11 @@ class BulkRename:
     def __init__(self):
         # Define the path of the main directory from which to rename files in folders.
         # main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
-        self.main_dir_path = 'D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\'
+        self.main_dir_path = "D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\"
         # Handle files in the main directory as well.
         self.include_main_dir = False
         # Define a base string that will be inserted into the renaming string.
-        self.main_name = 'Zentralasien'
+        self.main_name = "Zentralasien"
         # Use the name of the directory tree up to the main path when renaming a file.
         self.add_directory_name = True
         # Separator string that separates the part of the existing filename that will be
@@ -73,14 +73,14 @@ class BulkRename:
               (self.name_separator, self.white_space_separator, self.replace_white_space))
         print("[Info] Rename file types: %s" % self.rename_file_types)
 
-        for path, dirs, files in os.walk(self.main_dir_path):
+        for path, _, files in os.walk(self.main_dir_path):
             if path != self.main_dir_path or self.include_main_dir:
 
                 # TODO add better check for exclude_dirs at this point
                 exclude_dir = False
                 for curr_dir in self.exclude_dirs:
                     if path.find(curr_dir) > -1:
-                        print("[Info] Directory " + curr_dir + " will be excluded")
+                        print("[Info] Directory '%s' will be excluded" % curr_dir)
                         exclude_dir = True
 
                 if not exclude_dir:
@@ -89,26 +89,28 @@ class BulkRename:
                         split_path = os.path.abspath(path).replace(self.main_dir_path, '')
                         split_dirs = split_path.split('\\')
 
-                    print("[Info] Process directory " + path)
+                    print("[Info] Processing directory '%s'" % path)
                     i = self.batch_start_index
-                    for f in files:
-                        self.do_stuff(path, f, split_dirs, i)
+                    for curr in files:
+                        self.do_stuff(path, curr, split_dirs, i)
                         i += 1
 
-    def do_stuff(self, path, f, split_dirs, i):
-        original_file = os.path.join(path, f)
+    def do_stuff(self, path, curr_file, split_dirs, idx):
+        original_file = os.path.join(path, curr_file)
 
         fpc = str(imghdr.what(original_file)).upper()
         if self.rename_all_file_types or self.rename_file_types.__contains__(fpc):
-            if f.find(self.name_separator) == -1:
-                print('[Warning] File "%s" does not contain separator' % f)
+            if curr_file.find(self.name_separator) == -1:
+                print("[Warning] File '%s' does not contain separator" % curr_file)
+
                 # TODO Nicer filename integration into the print string.
                 # TODO Check if this is a good way to handle the file
                 # TODO ending when working with a missing name separator.
-                split_parts = f.rsplit('.', 1)
-                split_parts[1] = '.' + split_parts[1]
+
+                split_parts = curr_file.rsplit('.', 1)
+                split_parts[1] = ".%s" % split_parts[1]
             else:
-                split_parts = f.split(self.name_separator)
+                split_parts = curr_file.split(self.name_separator)
 
             file_name = ""
 
@@ -124,26 +126,26 @@ class BulkRename:
             file_name += self.main_name + self.white_space_separator
 
             if self.add_directory_name:
-                for d in split_dirs[1:]:
-                    file_name += d.rstrip(self.white_space_separator)
+                for curr_dir in split_dirs[1:]:
+                    file_name += curr_dir.rstrip(self.white_space_separator)
                     file_name += self.white_space_separator
 
-            file_name += "{:03d}".format(i)
+            file_name += "{:03d}".format(idx)
             end_name = split_parts[1]
             if split_parts.__len__() > 2:
-                for p in split_parts[2:]:
-                    end_name += self.white_space_separator + p
+                for part in split_parts[2:]:
+                    end_name += self.white_space_separator + part
 
             file_name.strip()
             end_name.strip()
 
             if self.replace_white_space & (file_name.find(' ') > 0):
-                print("[Info] Replace white space in " + file_name)
+                print("[Info] Replace white space in %s" % file_name)
                 file_name = file_name.replace(' ', self.white_space_separator)
                 file_name = file_name.replace(self.name_separator,
                                               self.white_space_separator)
             if self.replace_white_space & (end_name.find(' ') > 0):
-                print("[Info] Replace white space in " + end_name)
+                print("[Info] Replace white space in %s" % end_name)
                 end_name = end_name.replace(' ', self.white_space_separator)
                 end_name = end_name.replace(self.name_separator,
                                             self.white_space_separator)
