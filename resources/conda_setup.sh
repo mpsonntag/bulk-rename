@@ -34,4 +34,4 @@ conda info -a
 which python
 # The used dependencies are not the one advertised via the readme
 # but can be more easily installed and suffice for the tests for now.
-conda create -q -n condaenv python=$CONDAPY gtk3=3.14.15 pygobject gdk-pixbuf adwaita-icon-theme
+conda create -q -n condaenv python=$CONDAPY gtk3 pygobject gdk-pixbuf adwaita-icon-theme
