@@ -42,6 +42,7 @@ before_install:
   - if [[ "$CONDA" == "Y" ]]; then bash resources/conda_setup.sh; fi
 
 script:
+  - if [[ "$CONDA" == "Y" ]]; then export PATH="$HOME/miniconda/bin:$PATH"; fi
   - if [[ "$CONDA" == "Y" ]]; then source activate condaenv; fi
   - which python
   - python -m unittest discover test

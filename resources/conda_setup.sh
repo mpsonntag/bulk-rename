@@ -23,8 +23,7 @@ fi
 
 bash miniconda.sh -b -p $HOME/miniconda
 export PATH="$HOME/miniconda/bin:$PATH"
-# Keep exported paths for now
-# hash -r
+hash -r
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda
 conda config --add channels conda-forge
