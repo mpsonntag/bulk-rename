@@ -8,45 +8,33 @@
 
 import os
 import imghdr
+import yaml
 
 # TODO Add start and end
 # TODO Add logfile
 # TODO Add commandline support - add cmdline parser
 # TODO Outsource program settings to JSON file, parse and read that in.
 
+
 class BulkRename:
 
-    def __init__(self):
-        # Define the path of the main directory from which to rename files in folders.
-        # main_dir_path = 'D:\\_Chaos\\DL\\handleImages\\testRename\\'
-        self.main_dir_path = "D:\\_Chaos\\Bilder\\201510_Zentralasien\\sorted\\"
-        # Handle files in the main directory as well.
+    def __init__(self, main_dir_path, base_name="baseName"):
+
+        # Set defaults
         self.include_main_dir = False
-        # Define a base string that will be inserted into the renaming string.
-        self.main_name = "Zentralasien"
-        # Use the name of the directory tree up to the main path when renaming a file.
         self.add_directory_name = True
-        # Separator string that separates the part of the existing filename that will be
-        # replaced with the part of the existing filename that will be kept
-        # for the renaming string.
-        self.name_separator = '__'
-        # Define whether whitespace should be replaced or not.
+        self.name_separator = "__"
         self.replace_white_space = True
-        # White space separator, also used as white space replacement.
-        self.white_space_separator = '_'
-        # Define at which number the index for renaming multiple files in each folder
-        # should start.
+        self.white_space_separator = "_"
         self.batch_start_index = 1
-        # Define if all files encountered in a directory should be renamed
-        # or if only a defined subset should be subjected to renaming.
         self.rename_all_file_types = True
-        # Define which types of files should be renamed.
         # TODO Current file type checks are really slow...
         self.rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
-        # Define which directories within the main directory should be excluded
-        # all together. This option is case sensitive.
-        # exclude_dirs = ['excludeMe', '20150926_meToo']
         self.exclude_dirs = []
+
+        # Set semiconfigs
+        self.main_dir_path = main_dir_path
+        self.base_name = base_name
 
     def run(self):
         """
@@ -65,7 +53,7 @@ class BulkRename:
         print("[Info] Handling folder %s; included: %s" %
               (self.main_dir_path, self.include_main_dir))
         print("[Info] MainName: %s; Add Directory Name: %s; batch start index: %s" %
-              (self.main_name, self.add_directory_name, self.batch_start_index))
+              (self.base_name, self.add_directory_name, self.batch_start_index))
         print("[Info] Separator: '%s'; ws separator: '%s'; replace ws: '%s'" %
               (self.name_separator, self.white_space_separator, self.replace_white_space))
         print("[Info] Rename file types: %s" % self.rename_file_types)
@@ -81,10 +69,10 @@ class BulkRename:
                         exclude_dir = True
 
                 if not exclude_dir:
-                    split_dirs = [os.path.basename(path.rstrip('\\'))]
+                    split_dirs = [os.path.basename(path.rstrip("\\"))]
                     if path != self.main_dir_path:
-                        split_path = os.path.abspath(path).replace(self.main_dir_path, '')
-                        split_dirs = split_path.split('\\')
+                        split_path = os.path.abspath(path).replace(self.main_dir_path, "")
+                        split_dirs = split_path.split("\\")
 
                     print("[Info] Processing directory '%s'" % path)
                     i = self.batch_start_index
@@ -104,7 +92,7 @@ class BulkRename:
                 # TODO Check if this is a good way to handle the file
                 # TODO ending when working with a missing name separator.
 
-                split_parts = curr_file.rsplit('.', 1)
+                split_parts = curr_file.rsplit(".", 1)
                 split_parts[1] = ".%s" % split_parts[1]
             else:
                 split_parts = curr_file.split(self.name_separator)
@@ -120,7 +108,7 @@ class BulkRename:
 
             # TODO Check if inserting the main name into the first
             # directory and any subdirectory can be done in a better way.
-            file_name += self.main_name + self.white_space_separator
+            file_name += self.base_name + self.white_space_separator
 
             if self.add_directory_name:
                 for curr_dir in split_dirs[1:]:
@@ -136,14 +124,14 @@ class BulkRename:
             file_name.strip()
             end_name.strip()
 
-            if self.replace_white_space & (file_name.find(' ') > 0):
+            if self.replace_white_space & (file_name.find(" ") > 0):
                 print("[Info] Replace white space in %s" % file_name)
                 file_name = file_name.replace(' ', self.white_space_separator)
                 file_name = file_name.replace(self.name_separator,
                                               self.white_space_separator)
-            if self.replace_white_space & (end_name.find(' ') > 0):
+            if self.replace_white_space & (end_name.find(" ") > 0):
                 print("[Info] Replace white space in %s" % end_name)
-                end_name = end_name.replace(' ', self.white_space_separator)
+                end_name = end_name.replace(" ", self.white_space_separator)
                 end_name = end_name.replace(self.name_separator,
                                             self.white_space_separator)
 
