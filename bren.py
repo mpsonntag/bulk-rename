@@ -6,6 +6,6 @@
 # modification, are permitted under the terms of the BSD License. See
 # LICENSE file in the root of the project.
 
-import App
+import bren.App
 
-App.Main().run()
+bren.App.Main().run()
