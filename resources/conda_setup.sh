@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo Running conda_setup.sh
+
 set -e
 set -v
 

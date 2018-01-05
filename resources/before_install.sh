@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo Running before_install.sh
+
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     if [[ "$OSXENV" == "2.7" ]]; then

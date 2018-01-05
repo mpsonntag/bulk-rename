@@ -4,6 +4,8 @@
 # hence the packages installed will be system-wide, and not
 # specific to the virtual environment.
 
+echo Running install_dependencies.sh
+
 set -e
 echo $TRAVIS_PYTHON_VERSION
 
