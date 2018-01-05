@@ -13,11 +13,6 @@ import yaml
 # TODO Add start and end
 # TODO Add logfile
 # TODO Add commandline support - add cmdline parser
-# TODO Outsource program settings to JSON file, parse and read that in.
-
-CONFIG_TERMS = ["include_main_dir", "add_directory_name", "name_separator",
-                "replace_white_space", "white_space_separator", "batch_start_index",
-                "rename_all_file_types", "rename_file_types", "exclude_dirs"]
 
 
 class BulkRename:
@@ -31,7 +26,7 @@ class BulkRename:
         self.replace_white_space = True
         self.white_space_separator = "_"
         self.batch_start_index = 1
-        self.rename_all_file_types = True
+        self.rename_everything = True
         # TODO Current file type checks are really slow...
         self.rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
         self.exclude_dirs = []
@@ -46,32 +41,31 @@ class BulkRename:
 
         if config_file and os.path.isfile(config_file):
             with open(config_file) as yaml_raw:
-                config = yaml.load(yaml_raw)
-                if "include_main_dir" in config and config["include_main_dir"]:
-                    self.include_main_dir = True if config["include_main_dir"] == 1 else False
-                if "add_directory_name" in config and config["add_directory_name"]:
-                    self.add_directory_name = True if config["add_directory_name"] == 1 else False
-                if "name_separator" in config and config["name_separator"]:
-                    self.name_separator = config["name_separator"]
-                if "replace_white_space" in config and config["replace_white_space"]:
-                    self.replace_white_space = config["replace_white_space"]
-                if "white_space_separator" in config and config["white_space_separator"]:
-                    self.white_space_separator = True if config["white_space_separator"] == 1 else False
-                if "batch_start_index" in config and config["batch_start_index"]:
+                cfg = yaml.load(yaml_raw)
+                if "include_main_dir" in cfg and cfg["include_main_dir"]:
+                    self.include_main_dir = self.bool_switch(cfg["include_main_dir"])
+                if "add_directory_name" in cfg and cfg["add_directory_name"]:
+                    self.add_directory_name = self.bool_switch(cfg["add_directory_name"])
+                if "name_separator" in cfg and cfg["name_separator"]:
+                    self.name_separator = cfg["name_separator"]
+                if "replace_white_space" in cfg and cfg["replace_white_space"]:
+                    self.replace_white_space = cfg["replace_white_space"]
+                if "white_space_separator" in cfg and cfg["white_space_separator"]:
+                    self.white_space_separator = cfg["white_space_separator"]
+                if "batch_start_index" in cfg and cfg["batch_start_index"]:
                     try:
-                        2 + config["batch_start_index"]
+                        2 + cfg["batch_start_index"]
                     except TypeError as err:
                         print("[Warning] Invalid start index '%s'; using 1" %
-                              config["batch_start_index"])
+                              cfg["batch_start_index"])
                     else:
-                        self.batch_start_index = config["batch_start_index"]
-                if "rename_all_file_types" in config and config["rename_all_file_types"]:
-                    self.rename_all_file_types = True if config["rename_all_file_types"] == 1 else False
-                if "rename_file_types" in config and config["rename_file_types"]:
-                    self.rename_file_types = config["rename_file_types"]
-                if "exclude_dirs" in config and config["exclude_dirs"]:
-                    self.exclude_dirs = config["exclude_dirs"]
-
+                        self.batch_start_index = cfg["batch_start_index"]
+                if "rename_everything" in cfg and cfg["rename_everything"]:
+                    self.rename_everything = self.bool_switch(cfg["rename_everything"])
+                if "rename_file_types" in cfg and cfg["rename_file_types"]:
+                    self.rename_file_types = cfg["rename_file_types"]
+                if "exclude_dirs" in cfg and cfg["exclude_dirs"]:
+                    self.exclude_dirs = cfg["exclude_dirs"]
 
     def run(self):
         """
@@ -121,7 +115,7 @@ class BulkRename:
         original_file = os.path.join(path, curr_file)
 
         fpc = str(imghdr.what(original_file)).upper()
-        if self.rename_all_file_types or self.rename_file_types.__contains__(fpc):
+        if self.rename_everything or self.rename_file_types.__contains__(fpc):
             if curr_file.find(self.name_separator) == -1:
                 print("[Warning] File '%s' does not contain separator" % curr_file)
 
@@ -163,7 +157,7 @@ class BulkRename:
 
             if self.replace_white_space & (file_name.find(" ") > 0):
                 print("[Info] Replace white space in %s" % file_name)
-                file_name = file_name.replace(' ', self.white_space_separator)
+                file_name = file_name.replace(" ", self.white_space_separator)
                 file_name = file_name.replace(self.name_separator,
                                               self.white_space_separator)
             if self.replace_white_space & (end_name.find(" ") > 0):
@@ -177,3 +171,9 @@ class BulkRename:
             formatted_name = os.path.join(path, file_name)
 
             os.rename(original_file, formatted_name)
+
+    @staticmethod
+    def bool_switch(value):
+        if value == 1:
+            return True
+        return False
