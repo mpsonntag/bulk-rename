@@ -10,7 +10,7 @@ from .BulkRename import BulkRename
 
 
 def run():
-    BulkRename.run()
+    BulkRename().run()
 
 
 if __name__ == '__main__':
