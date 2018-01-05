@@ -1,4 +1,4 @@
-# Handle files in the main directory as well; 0 ... No, 1 ... Yes, Default 0.
+# Handle files in the main directory as well; 0 ... No, 1 ... Yes; Default 0.
 include_main_dir: 0
 
 # Use the name of the directory tree up to the main path when renaming a file.
@@ -8,9 +8,9 @@ add_directory_name: 1
 # Separator string that separates the part of the existing filename that will be
 # replaced with the part of the existing filename that will be kept
 # for the renaming string. Default: "__"
-name_separator: __asdf
+name_separator: __
 
-# Define whether whitespace should be replaced or not; 0 ... No, 1 ... Yes, Default: 1.
+# Define whether whitespace should be replaced or not; 0 ... No, 1 ... Yes; Default: 1.
 replace_white_space: 1
 
 # White space separator, also used as white space replacement. Default: "_"
@@ -18,22 +18,20 @@ white_space_separator: _
 
 # Define from which number the index for renaming multiple files in each folder
 # will start. Default: 1.
-batch_start_index: asdf
+batch_start_index: 1
 
 # Define if all files encountered in a directory should be renamed
 # or if only a defined subset should be subjected to renaming.
-# 0 ... No, 1 .. Yes, Default: 1.
-rename_all_file_types: 1
+# 0 ... No, 1 .. Yes; Default: 1.
+rename_everything: 1
 
-# Define which types of files should be renamed.
+# List of types of files that will be renamed.
 rename_file_types:
   - JPG
   - JPEG
   - PNG
   - GIF
 
-# Define which directories within the main directory should be excluded
+# Provide a list of directories within the main directory that will be excluded
 # all together. This option is case sensitive.
 exclude_dirs:
-  - exclude
-  - me
