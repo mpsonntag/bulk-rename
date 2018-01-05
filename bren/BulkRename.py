@@ -1,10 +1,12 @@
-# Copyright (c) 2016, Michael Sonntag (sonntag@bio.lmu.de)
-#
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted under the terms of the BSD License. See
-# LICENSE file in the root of the project.
+"""
+Copyright (c) 2017, Michael Sonntag (sonntag@bio.lmu.de)
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted under the terms of the BSD License. See
+LICENSE file in the root of the project.
+"""
 
 import os
 import imghdr
@@ -55,7 +57,7 @@ class BulkRename:
                 if "batch_start_index" in cfg and cfg["batch_start_index"]:
                     try:
                         2 + cfg["batch_start_index"]
-                    except TypeError as err:
+                    except TypeError as _:
                         print("[Warning] Invalid start index '%s'; using 1" %
                               cfg["batch_start_index"])
                     else:
@@ -92,7 +94,7 @@ class BulkRename:
         for path, _, files in os.walk(self.main_dir_path):
             if path != self.main_dir_path or self.include_main_dir:
 
-                # TODO add better check for exclude_dirs at this point
+                # TODO Add better check for exclude_dirs at this point
                 exclude_dir = False
                 for curr_dir in self.exclude_dirs:
                     if path.find(curr_dir) > -1:
@@ -119,8 +121,8 @@ class BulkRename:
             if curr_file.find(self.name_separator) == -1:
                 print("[Warning] File '%s' does not contain separator" % curr_file)
 
-                # TODO Check if this is a good way to handle the file
-                # TODO ending when working with a missing name separator.
+                # TODO Check if this is a good way to handle the file extension
+                # when working with a missing name separator.
 
                 split_parts = curr_file.rsplit(".", 1)
                 split_parts[1] = ".%s" % split_parts[1]
@@ -129,7 +131,7 @@ class BulkRename:
 
             file_name = ""
 
-            # Add directory name to te current file name if set.
+            # Add directory name to the current file name if set.
             # Make sure only one white space separator is used at the
             # end of the directory name.
             if self.add_directory_name:
