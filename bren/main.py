@@ -6,11 +6,11 @@
 # modification, are permitted under the terms of the BSD License. See
 # LICENSE file in the root of the project.
 
-from .App import Main
+from .BulkRename import BulkRename
 
 
 def run():
-    Main.run()
+    BulkRename.run()
 
 
 if __name__ == '__main__':

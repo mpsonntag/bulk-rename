@@ -17,7 +17,7 @@ __author__ = 'Michael Sonntag'
 # TODO Add commandline support - add cmdline parser
 # TODO Outsource program settings to JSON file, parse and read that in.
 
-class Main:
+class BulkRename:
     @staticmethod
     def run():
         """
@@ -90,10 +90,10 @@ class Main:
                     print("[Info] Process directory " + path)
                     i = batch_start_index
                     for f in files:
-                        Main.do_stuff(path, f, rename_all_file_types, rename_file_types,
-                                      name_separator, add_directory_name, split_dirs,
-                                      white_space_separator, main_name,
-                                      replace_white_space, i)
+                        BulkRename.do_stuff(path, f, rename_all_file_types, rename_file_types,
+                                            name_separator, add_directory_name, split_dirs,
+                                            white_space_separator, main_name,
+                                            replace_white_space, i)
                         i += 1
 
     @staticmethod
