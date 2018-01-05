@@ -15,10 +15,14 @@ import yaml
 # TODO Add commandline support - add cmdline parser
 # TODO Outsource program settings to JSON file, parse and read that in.
 
+CONFIG_TERMS = ["include_main_dir", "add_directory_name", "name_separator",
+                "replace_white_space", "white_space_separator", "batch_start_index",
+                "rename_all_file_types", "rename_file_types", "exclude_dirs"]
+
 
 class BulkRename:
 
-    def __init__(self, main_dir_path, base_name="baseName"):
+    def __init__(self, main_dir_path, base_name="baseName", config_file=None):
 
         # Set defaults
         self.include_main_dir = False
@@ -32,9 +36,36 @@ class BulkRename:
         self.rename_file_types = ['JPG', 'JPEG', 'PNG', 'GIF']
         self.exclude_dirs = []
 
-        # Set semiconfigs
+        # Set semi-configs
         self.main_dir_path = main_dir_path
         self.base_name = base_name
+
+        # Set config if available
+        print("[Info] Using config file: %s (found: %s)" %
+              (config_file, os.path.isfile(config_file)))
+
+        if config_file and os.path.isfile(config_file):
+            with open(config_file) as yaml_raw:
+                config = yaml.load(yaml_raw)
+                if "include_main_dir" in config and config["include_main_dir"]:
+                    self.include_main_dir = True if config["include_main_dir"] == 1 else False
+                if "add_directory_name" in config and config["add_directory_name"]:
+                    self.add_directory_name = True if config["add_directory_name"] == 1 else False
+                if "name_separator" in config and config["name_separator"]:
+                    self.name_separator = config["name_separator"]
+                if "replace_white_space" in config and config["replace_white_space"]:
+                    self.replace_white_space = config["replace_white_space"]
+                if "white_space_separator" in config and config["white_space_separator"]:
+                    self.white_space_separator = True if config["white_space_separator"] == 1 else False
+                if "batch_start_index" in config and config["batch_start_index"]:
+                    self.batch_start_index = config["batch_start_index"]
+                if "rename_all_file_types" in config and config["rename_all_file_types"]:
+                    self.rename_all_file_types = True if config["rename_all_file_types"] == 1 else False
+                if "rename_file_types" in config and config["rename_file_types"]:
+                    self.rename_file_types = config["rename_file_types"]
+                if "exclude_dirs" in config and config["exclude_dirs"]:
+                    self.exclude_dirs = config["exclude_dirs"]
+
 
     def run(self):
         """
