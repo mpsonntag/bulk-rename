@@ -27,7 +27,8 @@ export PATH="$HOME/miniconda/bin:$PATH"
 # hash -r
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda
-conda config --add channels conda-forge pkgw-forge
+conda config --add channels conda-forge
+conda config --add channels pkgw-forge
 # Useful for debugging any issues with conda
 conda info -a
 which python
