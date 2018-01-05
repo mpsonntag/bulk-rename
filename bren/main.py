@@ -11,12 +11,12 @@ from .BulkRename import BulkRename
 # tmp arguments until we add command line parser
 work_dir = "/nothing/to/see/here/"
 base_name = "hurra"
-config_file = "/tmp/some/file.yml"
+config_file = "resources/config.yml"
 
 
 def run():
-    BulkRename(work_dir).run()
+    BulkRename(work_dir, config_file=config_file).run()
 
 
 if __name__ == '__main__':
-    print("main")
+    run()
