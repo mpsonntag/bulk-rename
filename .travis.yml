@@ -42,6 +42,20 @@ matrix:
         - CONDA=Y
         - CONDAPY=3.5
 
+    - os: osx
+      language: generic
+      env:
+        - OSXENV=2.7
+        - CONDA=Y
+        - CONDAPY=2.7
+
+    - os: osx
+      language: generic
+      env:
+        - OSXENV=3.5
+        - CONDA=Y
+        - CONDAPY=3.5
+
 before_install:
   - bash resources/before_install.sh
   - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi

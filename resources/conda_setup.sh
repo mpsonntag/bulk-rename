@@ -6,7 +6,7 @@ set -e
 set -v
 
 # Run only for Linux for now
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then exit 0; fi
+# if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then exit 0; fi
 
 if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
     sudo apt-get update
