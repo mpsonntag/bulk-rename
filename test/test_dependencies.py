@@ -11,13 +11,16 @@ LICENSE file in the root of the project.
 import unittest
 
 
-class DependencyTest(unittest.TestCase):
+class TestDependencies(unittest.TestCase):
     """
     This class checks for non python gtk3 dependencies.
 
     This Class will be removed, it is testing how travis and conda
     can play nice with gtk3.
     """
+    def setUp(self):
+        pass
+
     def test_gi_dependency(self):
         has_error = False
         try:
