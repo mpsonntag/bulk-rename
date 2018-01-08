@@ -1,9 +1,11 @@
 #!/bin/bash
 
-echo Running before_install.sh
+echo Running install_osx_virtalenv.sh
 
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+
+    brew update;
+
     if [[ "$OSXENV" == "2.7" ]]; then
         brew install python;
         virtualenv venv -p python;

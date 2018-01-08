@@ -57,7 +57,7 @@ matrix:
         - CONDAPY=3.5
 
 before_install:
-  - bash resources/before_install.sh
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash resources/install_osx_virtualenv.sh; fi
   - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi
   - if [[ "$CONDA" == "Y" ]]; then bash resources/conda_setup.sh; fi
 
