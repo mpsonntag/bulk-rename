@@ -59,7 +59,7 @@ matrix:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash resources/install_osx_virtualenv.sh; fi
   - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi
-  - if [[ "$CONDA" == "Y" ]]; then bash resources/conda_setup.sh; fi
+  - if [[ "$CONDA" == "Y" ]]; then bash resources/install_conda.sh; fi
 
 script:
   - if [[ "$CONDA" == "Y" ]]; then export PATH="$HOME/miniconda/bin:$PATH"; fi

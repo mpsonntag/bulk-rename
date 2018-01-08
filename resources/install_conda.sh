@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo Running conda_setup.sh
+echo Running install_conda.sh
 
 set -e
 set -v
@@ -23,11 +23,18 @@ export PATH="$HOME/miniconda/bin:$PATH"
 hash -r
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda
-conda config --add channels conda-forge
-conda config --add channels pkgw-forge
+
 # Useful for debugging any issues with conda
 conda info -a
 which python
-# The used dependencies are not the one advertised via the readme
-# but can be more easily installed and suffice for the tests for now.
-conda create -q -n condaenv python=$CONDAPY gtk3 pygobject gdk-pixbuf adwaita-icon-theme
+
+# Create conda environment
+conda create -q -n condaenv python=$CONDAPY
+source activate condaenv
+which python
+
+# Install supported gi dependencies as provided by the installation guide.
+conda install -c pkgw/label/superseded gtk3
+conda install -c conda-forge pygobject
+conda install -c conda-forge gdk-pixbuf
+conda install -c pkgw-forge adwaita-icon-theme
