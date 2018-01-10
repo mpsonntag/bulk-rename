@@ -65,4 +65,6 @@ script:
   - if [[ "$CONDA" == "Y" ]]; then export PATH="$HOME/miniconda/bin:$PATH"; fi
   - if [[ "$CONDA" == "Y" ]]; then source activate condaenv; fi
   - which python
+  # Run dependencies test before running test bulk
+  - python -m unittest test.test_dependencies.TestDependencies
   - python -m unittest discover test
