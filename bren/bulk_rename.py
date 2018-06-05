@@ -14,6 +14,12 @@ import yaml
 
 
 class BulkRename:
+    """
+    This class is used to bulk parse and rename file names in a provided directory.
+
+    A yaml config file can be provided to specify directory handling and parser settings
+    instead of the default settings.
+    """
 
     def __init__(self, main_dir_path, base_name="baseName", config_file=None):
 
@@ -67,15 +73,17 @@ class BulkRename:
 
     def run(self):
         """
-        Script used to batch rename files in a directory tree. At the moment only files
-        in the first layer of subfolders will be taken into account.
-        Files will be renamed in the following fashion:
+        Script used to bulk rename files in a directory tree. At the moment only files
+        in the first layer of sub-directories will be taken into account.
+
+        By default files will be renamed according to the following pattern:
         '[Subdirectory name]_[specified batch name]_[progressing index]__[part of the
         previous name after separator]'.
-        The index will be reset for each subfolder, the starting index can be defined.
-        It can be defined whether all files should be renamed, the renaming can also be
-        restricted to specified file types only.
-        Subdirectories can be excluded by name.
+
+        - The index will be reset for each sub-directory, the starting index can be defined.
+        - It can be defined whether all files should be renamed.
+        - The renaming can also be restricted to specified file types only.
+        - Sub-directories can be excluded by name.
         """
 
         print("[Info] Starting ...")
