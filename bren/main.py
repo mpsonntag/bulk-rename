@@ -8,7 +8,7 @@ modification, are permitted under the terms of the BSD License. See
 LICENSE file in the root of the project.
 """
 
-from .BulkRename import BulkRename
+from .bulk_rename import BulkRename
 
 # tmp arguments until we add command line parser
 work_dir = "/nothing/to/see/here/"
