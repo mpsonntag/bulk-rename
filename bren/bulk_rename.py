@@ -12,10 +12,6 @@ import os
 import imghdr
 import yaml
 
-# TODO Add start and end
-# TODO Add logfile
-# TODO Add commandline support - add cmdline parser
-
 
 class BulkRename:
 
@@ -94,7 +90,6 @@ class BulkRename:
         for path, _, files in os.walk(self.main_dir_path):
             if path != self.main_dir_path or self.include_main_dir:
 
-                # TODO Add better check for exclude_dirs at this point
                 exclude_dir = False
                 for curr_dir in self.exclude_dirs:
                     if path.find(curr_dir) > -1:
@@ -121,9 +116,6 @@ class BulkRename:
             if curr_file.find(self.name_separator) == -1:
                 print("[Warning] File '%s' does not contain separator" % curr_file)
 
-                # TODO Check if this is a good way to handle the file extension
-                # when working with a missing name separator.
-
                 split_parts = curr_file.rsplit(".", 1)
                 split_parts[1] = ".%s" % split_parts[1]
             else:
@@ -138,8 +130,6 @@ class BulkRename:
                 file_name += split_dirs[0].rstrip(self.white_space_separator)
                 file_name += self.white_space_separator
 
-            # TODO Check if inserting the main name into the first
-            # directory and any subdirectory can be done in a better way.
             file_name += self.base_name + str(self.white_space_separator)
 
             if self.add_directory_name:
