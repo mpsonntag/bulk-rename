@@ -2,5 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/74t9j0febnw0lf36/branch/master?svg=true)](https://ci.appveyor.com/project/mpsonntag/bulk-rename/branch/master)
 
 # bulk-rename
-Tiny pet project trying out the IDEA python plugin with python 3.4 
-for the use of bulk renaming files from the command line.
+
+Small python command line tool for bulk renaming files.
+
+Mainly used to test various CI tools with python.
