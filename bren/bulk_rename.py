@@ -45,9 +45,9 @@ class BulkRename:
             with open(config_file) as yaml_raw:
                 cfg = yaml.load(yaml_raw)
                 if "include_main_dir" in cfg and cfg["include_main_dir"]:
-                    self.include_main_dir = self.bool_switch(cfg["include_main_dir"])
+                    self.include_main_dir = self._bool_switch(cfg["include_main_dir"])
                 if "add_directory_name" in cfg and cfg["add_directory_name"]:
-                    self.add_directory_name = self.bool_switch(cfg["add_directory_name"])
+                    self.add_directory_name = self._bool_switch(cfg["add_directory_name"])
                 if "name_separator" in cfg and cfg["name_separator"]:
                     self.name_separator = cfg["name_separator"]
                 if "replace_white_space" in cfg and cfg["replace_white_space"]:
@@ -63,7 +63,7 @@ class BulkRename:
                     else:
                         self.batch_start_index = cfg["batch_start_index"]
                 if "rename_everything" in cfg and cfg["rename_everything"]:
-                    self.rename_everything = self.bool_switch(cfg["rename_everything"])
+                    self.rename_everything = self._bool_switch(cfg["rename_everything"])
                 if "rename_file_types" in cfg and cfg["rename_file_types"]:
                     self.rename_file_types = cfg["rename_file_types"]
                 if "exclude_dirs" in cfg and cfg["exclude_dirs"]:
@@ -110,10 +110,10 @@ class BulkRename:
                     print("[Info] Processing directory '%s'" % path)
                     i = self.batch_start_index
                     for curr in files:
-                        self.do_stuff(path, curr, split_dirs, i)
+                        self._rename(path, curr, split_dirs, i)
                         i += 1
 
-    def do_stuff(self, path, curr_file, split_dirs, idx):
+    def _rename(self, path, curr_file, split_dirs, idx):
         original_file = os.path.join(path, curr_file)
 
         fpc = str(imghdr.what(original_file)).upper()
@@ -174,7 +174,7 @@ class BulkRename:
             os.rename(original_file, formatted_name)
 
     @staticmethod
-    def bool_switch(value):
+    def _bool_switch(value):
         if value == 1:
             return True
         return False
