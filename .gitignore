@@ -8,11 +8,5 @@
 # exclude compiled python files
 *.pyc
 
-# maven
-out/
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
+# doc/_build files
+doc/_build/
