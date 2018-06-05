@@ -5,8 +5,15 @@
 # log files
 *.log
 
-# exclude compiled python files
+# python files and dirs
 *.pyc
+*.pyo
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
 
 # doc/_build files
 doc/_build/
