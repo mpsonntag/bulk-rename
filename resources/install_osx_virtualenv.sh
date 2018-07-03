@@ -30,6 +30,7 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
 
     which python;
     python --version;
+    which pip
     pip install requests;
     pip install lxml;
 fi
