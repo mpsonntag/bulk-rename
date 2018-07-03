@@ -25,11 +25,11 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
             pyenv install 3.6.0
             pyenv virtualenv 3.6.0 venv
         fi
-        pyenv activate venv
     fi
-fi
+    pyenv activate venv
 
-which python;
-python --version;
-pip install requests;
-pip install lxml;
+    which python;
+    python --version;
+    pip install requests;
+    pip install lxml;
+fi
