@@ -14,9 +14,6 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     if [[ "$OSXENV" == "2.7" ]]; then
         pyenv install 2.7.14
         pyenv virtualenv 2.7.14 venv
-#        brew install python;
-#        virtualenv venv -p python;
-#        source venv/bin/activate;
     else
         if [[ "$OSXENV" == "3.5" ]]; then
             pyenv install 3.5.0
