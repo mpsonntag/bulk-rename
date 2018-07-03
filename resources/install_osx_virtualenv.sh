@@ -13,6 +13,9 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     else
         brew install pyenv;
         brew upgrade pyenv;
+        brew install pyenv-virtualenv;
+        eval "$(pyenv init -)";
+        eval "$(pyenv virtualenv-init -)";
         if [[ "$OSXENV" == "3.5" ]]; then
             pyenv install 3.5.0
             pyenv virtualenv 3.5.0 venv
