@@ -19,16 +19,14 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         if [[ "$OSXENV" == "3.5" ]]; then
             pyenv install 3.5.0
             pyenv virtualenv 3.5.0 venv
-            pyenv activate venv
-#            virtualenv venv --python=python3.5;
-#            source venv/bin/activate;
         else
             pyenv install 3.6.0
-            virtualenv venv --python=python3.6;
-            source venv/bin/activate;
+            pyenv virtualenv 3.6.0 venv
         fi
+        pyenv activate venv
     fi
 fi
 
 which python;
+python --version;
 pip install lxml;
