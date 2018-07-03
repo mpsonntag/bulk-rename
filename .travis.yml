@@ -122,7 +122,7 @@ install:
       eval "$(pyenv init -)";
       eval "$(pyenv virtualenv-init -)";
       pyenv install $OSXENV;
-      pyenv virtualenv $OSXENV venv;
+      pyenv virtualenv --system-site-packages $OSXENV venv;
       pyenv activate venv;
       which python;
       python --version;
