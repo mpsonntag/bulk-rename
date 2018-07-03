@@ -84,25 +84,66 @@ matrix:
     - os: osx
       language: generic
       env:
-        - OSXENV=2.7
+        - OSXENV=2.7.14
         - CONDA=N
 
     - os: osx
       language: generic
       env:
-        - OSXENV=3.5
+        - OSXENV=3.5.0
         - CONDA=N
 
     - os: osx
       language: generic
       env:
-        - OSXENV=3.6
+        - OSXENV=3.6.0
         - CONDA=N
 
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash resources/install_osx_virtualenv.sh; fi
+#before_install:
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash resources/install_osx_virtualenv.sh; fi
+#  - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi
+#  - if [[ "$CONDA" == "Y" ]]; then bash resources/install_conda.sh; fi
+
+install:
+  - export PYVER=${TRAVIS_PYTHON_VERSION:0:1}
+  - if [ $PYVER = 3 ]; then
+      export PYCMD=python3;
+      export PIPCMD=pip3;
+    else
+      export PYCMD=python;
+      export PIPCMD=pip;
+    fi;
+
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew update;
+      brew install pyenv;
+      brew upgrade pyenv;
+      brew install pyenv-virtualenv;
+      eval "$(pyenv init -)";
+      eval "$(pyenv virtualenv-init -)";
+      if [[ "$OSXENV" == "2.7.14" ]]; then
+        pyenv install 2.7.14;
+        pyenv virtualenv 2.7.14 venv;
+      else
+        if [[ "$OSXENV" == "3.5.0" ]]; then
+            pyenv install 3.5.0
+            pyenv virtualenv 3.5.0 venv
+        else
+            pyenv install 3.6.0
+            pyenv virtualenv 3.6.0 venv
+        fi;
+      fi;
+      pyenv activate venv;
+      which python;
+      python --version;
+      which pip;
+      export PYCMD=python;
+      export PIPCMD=pip;
+    fi;
+
+  - $PIPCMD install lxml enum34 pyyaml rdflib
+
   - if [[ "$CONDA" == "N" ]]; then bash resources/install_dependencies.sh; fi
-  - if [[ "$CONDA" == "Y" ]]; then bash resources/install_conda.sh; fi
 
 script:
   - if [[ "$CONDA" == "Y" ]]; then export PATH="$HOME/miniconda/bin:$PATH"; fi
