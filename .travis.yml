@@ -121,18 +121,8 @@ install:
       brew install pyenv-virtualenv;
       eval "$(pyenv init -)";
       eval "$(pyenv virtualenv-init -)";
-      if [[ "$OSXENV" == "2.7.14" ]]; then
-        pyenv install 2.7.14;
-        pyenv virtualenv 2.7.14 venv;
-      else
-        if [[ "$OSXENV" == "3.5.0" ]]; then
-            pyenv install 3.5.0;
-            pyenv virtualenv 3.5.0 venv;
-        else
-            pyenv install 3.6.0;
-            pyenv virtualenv 3.6.0 venv;
-        fi;
-      fi;
+      pyenv install $OSXENV;
+      pyenv virtualenv $OSXENV venv;
       pyenv activate venv;
       which python;
       python --version;
@@ -149,6 +139,7 @@ script:
   - if [[ "$CONDA" == "Y" ]]; then export PATH="$HOME/miniconda/bin:$PATH"; fi
   - if [[ "$CONDA" == "Y" ]]; then source activate condaenv; fi
   - which python
+  - python --version
   # Run dependencies test before running test bulk
   - python -m unittest test.test_dependencies.TestDependencies
   - python -m unittest discover test
