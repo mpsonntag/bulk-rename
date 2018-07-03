@@ -10,11 +10,9 @@ echo "Running install_dependencies.sh"
 echo $TRAVIS_PYTHON_VERSION
 
 ##########   Linux Build   ##########
-if [[ $TRAVIS_OS_NAME == 'linux' ]]
-then
+if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
 
-    if [ ${TRAVIS_PYTHON_VERSION%.*} -eq 3 ]
-    then
+    if [ ${TRAVIS_PYTHON_VERSION%.*} -eq 3 ]; then
         packages='python3-gi'
     else
         packages='python-gi'
@@ -27,9 +25,16 @@ then
 
 ####### OS X Build #######
 else
+    which python;
+    python --version;
 
-    brew install gtk+
-    brew install pygobject
+    if [[ $OSXENV == "2.7" ]]; then
+        brew install gtk+
+        brew install pygobject
+    else
+        brew install gtk+3
+        brew install pygobject3
+    fi
     brew install gnome-icon-theme
     brew install gobject-introspection
 
