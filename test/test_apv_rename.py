@@ -30,4 +30,3 @@ class RenameTest(unittest.TestCase):
 
     def test_tmp_files(self):
         self.assertEqual(len(os.listdir(self.tmpdir)), 3)
-        self.assertEqual(len(os.listdir(self.tmpdir)), 4)
