@@ -14,4 +14,4 @@ jobs:
       - name: Install dependencies
         run: python setup.py install
       - name: Run tests
-        run: python setup.py test
+        run: python -m unittest test.test_apv_rename.RenameTest
