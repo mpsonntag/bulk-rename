@@ -1,3 +1,5 @@
+.. image:: https://github.com/mpsonntag/bulk-rename/workflows/run-tests/badge.svg
+    :target: https://github.com/mpsonntag/bulk-rename/actions
 .. image:: https://travis-ci.org/mpsonntag/bulk-rename.svg?branch=master
     :target: https://travis-ci.org/mpsonntag/bulk-rename
 .. image:: https://ci.appveyor.com/api/projects/status/74t9j0febnw0lf36?svg=true
