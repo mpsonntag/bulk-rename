@@ -42,5 +42,5 @@ jobs:
           coverage run --source=bren -m pytest test/ --ignore test/test_dependencies.py
       - name: Submit to coveralls
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: coveralls
