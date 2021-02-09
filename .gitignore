@@ -15,5 +15,8 @@ build
 eggs
 parts
 
+# coverage files
+.coverage
+
 # doc/_build files
 doc/_build/
