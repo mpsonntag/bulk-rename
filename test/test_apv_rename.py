@@ -14,6 +14,8 @@ import tempfile
 import unittest
 import uuid
 
+from bren.bulk_rename import BulkRename
+
 
 class RenameTest(unittest.TestCase):
     def setUp(self):
@@ -30,3 +32,7 @@ class RenameTest(unittest.TestCase):
 
     def test_tmp_files(self):
         self.assertEqual(len(os.listdir(self.tmpdir)), 3)
+
+    def test_bool_switch(self):
+        self.assertEqual(BulkRename._bool_switch(1), True)
+        self.assertEqual(BulkRename._bool_switch(2), False)
