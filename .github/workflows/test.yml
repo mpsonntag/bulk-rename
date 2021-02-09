@@ -23,3 +23,25 @@ jobs:
         run: python setup.py install
       - name: Run tests
         run: python -m unittest test.test_apv_rename.RenameTest
+  run-coverall:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.8
+        uses: actions/setup-python
+        with:
+          python-version: "3.8"
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install dependencies
+        run: |
+          python setup.py install
+          pip install pytest coveralls
+      - name: Create coverage
+        run: |
+          coverage run --source=bren -m pytest test/ --ignore test/test_dependencies.py
+          coverage report -m
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
