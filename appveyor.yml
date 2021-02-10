@@ -17,5 +17,8 @@ init:
 
 build: false
 
+install:
+  - python setup.py install
+
 test_script:
   - python -m unittest discover -p test_apv*.py test
