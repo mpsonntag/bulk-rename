@@ -36,6 +36,7 @@ jobs:
           conda install -c pkgw-forge adwaita-icon-theme
       - name: Install Python dependencies
         run: |
+          python setup.py install
           pip install pytest
       - name: Run tests
         run: |
