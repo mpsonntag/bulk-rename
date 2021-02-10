@@ -5,25 +5,24 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  run-dependency-test:
-    runs-on: [ubuntu-latest]
+  run-conda-test:
+    name: Running tests using miniconda
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Python 3.8
-        uses: actions/setup-python@v2
+      - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: "3.8"
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
-      - name: Install gtk dependencies
+          activate-environment: deptest-${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge,pkgw-forge
+      - name: Show conda details
         run: |
-          sudo apt-get -qq update
-          sudo apt-get install libffi-dev libglib2.0-dev
-          sudo apt-get install gobject-introspection libgtk-3-dev
-          sudo apt-get install python3-gi
-      - name: Install general dependencies
-        run: |
-          python setup.py install
-          pip install pytest
-      - name: Run tests
-        run: pytest
+          conda info
+          conda list
