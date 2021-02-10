@@ -13,8 +13,8 @@ jobs:
         shell: bash -l {0}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.8, 3.9]
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
@@ -28,12 +28,19 @@ jobs:
           conda list
           which python
           conda --version
-      - name: Install conda dependencies
+      - name: Install Linux conda dependencies
+        if:  ${{ matrix.os }} == 'ubuntu-latest'
         run: |
           conda install -c pkgw/label/superseded gtk3
           conda install -c conda-forge pygobject
           conda install -c conda-forge gdk-pixbuf
           conda install -c pkgw-forge adwaita-icon-theme
+      - name: Install MacOS conda dependencies
+        if:  ${{ matrix.os }} == 'macos-latest'
+        run: |
+          conda install -c pkgw/label/superseded gtk3
+          conda install -c conda-forge pygobject
+          conda install -c conda-forge gdk-pixbuf
       - name: Install Python dependencies
         run: |
           python setup.py install
