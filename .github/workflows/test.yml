@@ -26,3 +26,17 @@ jobs:
         run: |
           conda info
           conda list
+          which python
+          conda --version
+      - name: Install conda dependencies
+        run: |
+          conda install -c pkgw/label/superseded gtk3
+          conda install -c conda-forge pygobject
+          conda install -c conda-forge gdk-pixbuf
+          conda install -c pkgw-forge adwaita-icon-theme
+      - name: Install Python dependencies
+        run: |
+          pip install pytest
+      - name: Run tests
+        run: |
+          pytest
