@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: [3.6]
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
@@ -22,15 +22,19 @@ jobs:
           activate-environment: deptest-${{ matrix.python-version }}
           python-version: ${{ matrix.python-version }}
           channels: conda-forge,pkgw-forge
+      - name: Linux conda
+        if:  matrix.os == 'ubuntu-latest'
+        run: echo "Running Ubuntu"
+      - name: MacOS conda
+        if:  matrix.os == 'macos-latest'
+        run: echo "Running MacOS"
       - name: Show conda details
         run: |
           conda info
           conda list
           which python
           conda --version
-      - name: Install Linux conda dependencies
-        if:  matrix.os == 'ubuntu-latest'
-        run: echo "I am ubuntu"
-      - name: Install MacOS conda dependencies
-        if:  matrix.os == 'macos-latest'
-        run: echo "I am macos"
+      - name: Install dependencies
+        run: pip install pytest
+      - name: Run tests
+        run: pytest
