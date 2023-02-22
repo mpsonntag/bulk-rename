@@ -34,7 +34,9 @@ jobs:
           conda list
           which python
           conda --version
-      - name: Install dependencies
+      - name: Installation
+        run: python setup.py install
+      - name: Install test dependencies
         run: pip install pytest
       - name: Run tests
         run: pytest
