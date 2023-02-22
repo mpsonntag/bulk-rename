@@ -40,3 +40,24 @@ jobs:
         run: pip install pytest
       - name: Run tests
         run: pytest
+  run-coverall:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install dependencies
+        run: |
+          python setup.py install
+          pip install pytest coveralls
+      - name: Create coverage
+        run: |
+          coverage run --source=bren -m pytest test/
+      - name: Submit to coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls --service=github
