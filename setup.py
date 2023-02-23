@@ -12,6 +12,8 @@ with open('README.rst') as f:
 
 install_req = ["pyyaml"]
 
+tests_req = ["pytest"]
+
 setup(
     name='bulkrename',
     version='1.0.0',
@@ -20,6 +22,7 @@ setup(
     packages=packages,
     test_suite='test',
     install_requires=install_req,
+    tests_require=tests_req,
     include_package_data=True,
     long_description=description_text,
     license="BSD"
