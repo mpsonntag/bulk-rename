@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  run-conda-test:
+  test-darwin-conda:
     name: Running tests using miniconda
     runs-on: ${{ matrix.os }}
     defaults:
@@ -16,7 +16,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
     steps:
+      # upgrade to latest checkout version
       - uses: actions/checkout@v2
+      # upgrade to latest version
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: deptest-${{ matrix.python-version }}
@@ -35,6 +37,7 @@ jobs:
           which python
           conda --version
       - name: Installation
+        # upgrade to not use deprecated setup.py install any longer
         run: python setup.py install
       - name: Install test dependencies
         run: pip install pytest
