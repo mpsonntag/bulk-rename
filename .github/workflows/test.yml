@@ -40,6 +40,28 @@ jobs:
         run: pip install pytest
       - name: Run tests
         run: pytest
+  test-win-plain:
+    continue-on-error: true
+    runs-on: [windows-latest]
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10"]
+    steps:
+      # upgrade to latest version
+      - uses: actions/checkout@v2
+      - name: Setup Python ${{ matrix.python-version }}
+        # upgrade to latest version
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install dependencies
+        run: |
+          python setup.py install
+          pip install -r requirements-test.txt
+      - name: Run tests
+        run: pytest
   run-coverall:
     runs-on: [ubuntu-latest]
     steps:
