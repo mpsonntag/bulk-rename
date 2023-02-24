@@ -49,7 +49,7 @@ build: false
 install:
   - python -m pip install --upgrade pip
   - python -m pip install pytest
-  - python -m pip install .
+  - python -m pip install -v .
 
 test_script:
   - python -m pytest -v
