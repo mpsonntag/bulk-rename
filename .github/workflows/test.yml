@@ -2,9 +2,12 @@ name: run-tests
 
 on:
   push:
-    branches: [master, dev]
+    branches:
+      - master
+      - dev
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   test-darwin-conda:
@@ -18,10 +21,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
     steps:
-      # upgrade to latest checkout version
-      - uses: actions/checkout@v2
-      # upgrade to latest version
-      - uses: conda-incubator/setup-miniconda@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: deptest-${{ matrix.python-version }}
           python-version: ${{ matrix.python-version }}
@@ -54,11 +56,10 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: ["3.10"]
     steps:
-      # upgrade to latest version
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Setup Python ${{ matrix.python-version }}
-        # upgrade to latest version
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Display Python version
@@ -78,11 +79,10 @@ jobs:
       matrix:
         python-version: ["3.10"]
     steps:
-      # upgrade to latest version
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Setup Python ${{ matrix.python-version }}
-        # upgrade to latest version
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Display Python version
@@ -99,9 +99,10 @@ jobs:
   run-coverall:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Setup Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.10"
       - name: Display Python version
@@ -123,9 +124,10 @@ jobs:
   run-codecov:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Setup Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.10"
       - name: Display Python version
@@ -136,8 +138,7 @@ jobs:
       - name: Test dependencies installation
         run: pip install pytest pytest-cov
       - name: Create coverage
-        run: |
-          pytest --cov=./ --cov-report=xml
+        run: pytest --cov=./ --cov-report=xml
       - uses: codecov/codecov-action@v1
         with:
           name: Submit Codecov coverage
